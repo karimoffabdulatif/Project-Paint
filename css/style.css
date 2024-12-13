@@ -10,6 +10,7 @@
 body {
     display: flex;
     align-items: center;
+    overflow-y: hidden; 
     justify-content: center;
     min-height: 100vh;
     background: rgb(2, 0, 36);
@@ -19,78 +20,111 @@ body {
         rgba(9, 9, 121, 1) 35%,
         rgba(0, 212, 255, 1) 100%
     );
-    padding: 0 20px;
 }
 
 .container {
     display: flex;
     width: 100%;
-    gap: 15px;
-    flex-wrap: wrap;
-    padding: 15px;
-    justify-content: center;
+    gap: 10px;
+    padding: 100px;
+    min-width: 1050px;
+}
+
+section {
+    background: #fff;
 }
 
 .tools-board {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 350px;
-    margin-bottom: 20px;
+    width: 210px;
+    padding: 15px 22px 0;
 }
 
 .tools-board .row {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .row-options {
     list-style: none;
-    margin: 0;
-    padding-left: 0;
+    margin: 10px 0 0 5px;
 }
 
-.option {
+.row .options .option {
     display: flex;
     cursor: pointer;
     align-items: center;
     margin-bottom: 10px;
-    font-size: 1rem;
 }
 
-.option img {
-    max-width: 20px;
-    margin-right: 10px;
+.option:is(:hover, .active) img {
+    filter: invert(17%) sepia(90%) saturate(3000%) hue-rotate(900deg) brightness(100%) contrast(100%);
 }
 
-.option:hover, .option.active {
+.option :where(span, label) {
+    color: #5a6168;
+    cursor: pointer;
+    padding-left: 10px;
+}
+
+.option:is(:hover, .active) :where(span, label) {
     color: #4a97f7;
 }
 
-.option input {
-    margin-right: 10px;
+.option #fill-color {
+    cursor: pointer;
+    height: 14px;
+    width: 14px;
+}
+
+.colors .options {
+   display: flex;
+   justify-content: space-between;
 }
 
 .colors .option {
-    width: 24px;
-    height: 24px;
+    height: 20px;
+    width: 20px;
     border-radius: 50%;
-    margin-right: 8px;
-    margin-top: 8px;
-    display: inline-block;
+    margin-top: 3px;
+    position: relative;
 }
 
-.colors .option.selected {
+.colors .option:nth-child(1) {
+    background-color: #fff;
+    border : 1px solid #cfcfcf
+}
+.colors .option:nth-child(2) {
+    background-color: #000;
+}
+.colors .option:nth-child(3) {
+    background-color: #e02020;
+}
+.colors .option:nth-child(4) {
+    background-color: #6dd400;
+}
+.colors .option:nth-child(5) {
+    background-color: #4a97f7;
+}
+
+.colors .option.selected::before {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 50%;
+    height: 12px;
+    width: 12px;
+    background: inherit;
+    border-radius: inherit;
     border: 2px solid #fff;
+    transform: translate(-48%, -50%);
 }
 
-.slider-container {
-    margin-top: 20px;
+.colors .option:first-child.selectede::before {
+    background-color: #ccc;
 }
 
-.slider {
-    width: 100%;
+.option #color-picker {
+    opacity: 0;
+    cursor: pointer;
 }
 
 .buttons button {
@@ -98,86 +132,103 @@ body {
     color: #fff;
     border: none;
     outline: none;
-    padding: 12px 0;
-    font-size: 1rem;
-    background: #4a97f7;
+    padding: 11px 0;
+    font-size: 0.9rem;
+    margin-bottom: 13px;
+    background: none;
     border-radius: 4px;
     cursor: pointer;
-    margin-top: 15px;
-    transition: background 0.3s ease;
 }
 
-.buttons button:hover {
-    background-color: #3b83d6;
+.buttons .clear-canvas {
+    color: #6c757d;
+    border: 1px solid #6c757d;
+    transition: all 0.3s ease;
+}
+.buttons .clear-canvas:hover {
+    color: #fff;
+    background:#6c757d;
+    transition: all 0.3s ease;
 }
 
-button:disabled {
-    background-color: #ccc;
+.buttons .save-img {
+    background:#4a97f7;
+    border: 1px solid #4a97f7;
 }
 
 .drawing-board {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    width: 100%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
+    flex: 1;
+    overflow: hidden;
 }
 
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-    .tools-board {
-        padding: 15px;
+.drawing-board canvas {
+    width: 100%;
+    height: 100%;
+}
+
+/* Mavjud kod o'zgartirilmaydi, responsivlik uchun qo'shimchalar */
+
+@media (max-width: 1200px) {
+    .container {
+        padding: 80px;
+        min-width: 900px;
     }
 
+    .tools-board {
+        width: 180px;
+    }
+
+    .buttons button {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 992px) {
     .container {
         flex-direction: column;
         align-items: center;
+        min-width: auto;
+        padding: 50px;
     }
 
     .tools-board {
-        max-width: 100%;
+        width: 100%;
         margin-bottom: 20px;
-    }
-
-    .buttons button {
-        font-size: 0.9rem;
-        padding: 10px 0;
-    }
-
-    .option img {
-        max-width: 18px;
-    }
-
-    .colors .option {
-        width: 20px;
-        height: 20px;
-        margin-right: 5px;
     }
 
     .drawing-board {
-        height: 400px;  /* Increased height for the canvas */
         width: 100%;
-        max-width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .slider-container {
-        margin-top: 10px;
-    }
-
-    .slider {
-        width: 80%;
-    }
-
-    .tools-board .row {
-        margin-bottom: 10px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 768px) {
     body {
-        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .drawing-board canvas {
+    width: 100%;
+    height: 500px;
+}
+
+    .container {
+        padding: 30px;
+    }
+
+    .tools-board  {
+        padding: 10px 15px;
+    }
+
+
+    .buttons button {
+        font-size: 0.8rem;
+        padding: 10px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 20px;
     }
 
     .tools-board {
@@ -185,31 +236,17 @@ button:disabled {
     }
 
     .buttons button {
-        font-size: 0.8rem;
+        font-size: 0.75rem;
         padding: 8px 0;
     }
 
-    .drawing-board {
-        height: 450px;  /* Increased height for the canvas on smaller screens */
-        width: 100%;
-        margin-bottom: 20px;
-    }
-
-    .option img {
-        max-width: 16px;
-    }
-
     .colors .option {
-        width: 18px;
         height: 18px;
-        margin-right: 4px;
+        width: 18px;
     }
 
-    .container {
-        padding: 0;
-    }
-
-    .slider {
-        width: 100%;
+    .colors .option.selected::before {
+        height: 10px;
+        width: 10px;
     }
 }
